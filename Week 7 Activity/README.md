@@ -90,5 +90,3 @@ To execute the script:
 3. Analyze the output printed in the terminal.
 
 ---
-
-Let me know if you’d like further clarification or enhancements to this README!
