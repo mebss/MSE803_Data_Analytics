@@ -68,3 +68,25 @@ outlier_counts = {
 print("\n📊 Outlier Counts Detected:")
 for key, value in outlier_counts.items():
     print(f"   - {key}: {value} outliers")
+
+# Check if society can be predicted from site_location
+site_location_unique_society = df.groupby('site_location')['society'].nunique().reset_index()
+
+# Count how many site_locations have only one unique society
+single_society_locations = site_location_unique_society[site_location_unique_society['society'] == 1].shape[0]
+
+# Count how many site_locations have multiple societies
+multiple_society_locations = site_location_unique_society[site_location_unique_society['society'] > 1].shape[0]
+
+# Print findings
+print("\n🔎 Society Prediction Analysis:")
+print(f"   - Total Unique Site Locations: {site_location_unique_society.shape[0]}")
+print(f"   - Site Locations with a Single Unique Society: {single_society_locations}")
+print(f"   - Site Locations with Multiple Societies: {multiple_society_locations}")
+
+# Final Decision on Missing Society
+if multiple_society_locations > single_society_locations:
+    print("\n❌ Most site locations have multiple societies. Predicting missing 'society' is NOT reliable.")
+    print("   ➡️ Keeping missing 'society' as 'Unknown'. ✅")
+else:
+    print("\n✅ Some site locations are strongly tied to a single society. Prediction may be possible.")
