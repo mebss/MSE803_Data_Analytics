@@ -5,9 +5,15 @@ import matplotlib.pyplot as plt
 file_path = "House_Data.csv"  # Update with your file path
 df = pd.read_csv(file_path)
 
-# Display missing values before cleaning
+# Display missing values before cleaning (with percentage)
 print("\n🔹 Missing Values (Before Cleaning):")
-print(df.isnull().sum())
+missing_values = df.isnull().sum()
+total_rows = len(df)
+missing_percentage = (missing_values / total_rows) * 100
+
+# Print missing values with percentages
+missing_summary = pd.DataFrame({"Missing Count": missing_values, "Percentage (%)": missing_percentage})
+print(missing_summary)
 
 # Display duplicate count before cleaning
 duplicate_count = df.duplicated().sum()
@@ -25,9 +31,14 @@ df_cleaned.loc[:, 'balcony'] = df_cleaned['balcony'].fillna(df_cleaned['balcony'
 # Drop rows with missing 'size' values as it is essential
 df_cleaned = df_cleaned.dropna(subset=['size'])
 
-# Display missing values after cleaning
+# Display missing values after cleaning (with percentage)
 print("\n✅ Missing Values (After Cleaning):")
-print(df_cleaned.isnull().sum())
+missing_values_after = df_cleaned.isnull().sum()
+missing_percentage_after = (missing_values_after / len(df_cleaned)) * 100
+
+# Print cleaned missing values summary
+missing_summary_after = pd.DataFrame({"Missing Count": missing_values_after, "Percentage (%)": missing_percentage_after})
+print(missing_summary_after)
 
 # Display duplicate count after cleaning
 print(f"\n✅ Duplicate Rows Remaining (After Cleaning): {df_cleaned.duplicated().sum()}")
