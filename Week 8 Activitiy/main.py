@@ -5,9 +5,16 @@ import matplotlib.pyplot as plt
 file_path = "House_Data.csv"  # Update with your file path
 df = pd.read_csv(file_path)
 
+# Display missing values before cleaning
+print("\n🔹 Missing Values (Before Cleaning):")
+print(df.isnull().sum())
+
+# Display duplicate count before cleaning
+duplicate_count = df.duplicated().sum()
+print(f"\n🔹 Duplicate Rows Found (Before Cleaning): {duplicate_count}")
+
 # Data Cleaning
-# Remove duplicate rows
-df_cleaned = df.drop_duplicates().copy()  # Ensure it is a fresh copy
+df_cleaned = df.drop_duplicates().copy()  # Remove duplicates and ensure a fresh copy
 
 # Handle missing values safely
 df_cleaned.loc[:, 'society'] = df_cleaned['society'].fillna("Unknown")
@@ -17,6 +24,13 @@ df_cleaned.loc[:, 'balcony'] = df_cleaned['balcony'].fillna(df_cleaned['balcony'
 
 # Drop rows with missing 'size' values as it is essential
 df_cleaned = df_cleaned.dropna(subset=['size'])
+
+# Display missing values after cleaning
+print("\n✅ Missing Values (After Cleaning):")
+print(df_cleaned.isnull().sum())
+
+# Display duplicate count after cleaning
+print(f"\n✅ Duplicate Rows Remaining (After Cleaning): {df_cleaned.duplicated().sum()}")
 
 # Checking for Outliers
 numerical_columns = ['bath', 'balcony', 'price']
@@ -51,4 +65,6 @@ outlier_counts = {
 }
 
 # Print outlier counts
-print("Outlier Counts:", outlier_counts)
+print("\n📊 Outlier Counts Detected:")
+for key, value in outlier_counts.items():
+    print(f"   - {key}: {value} outliers")
